@@ -1591,9 +1591,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
      * @alias onIndexChange
      */
     useEffect(() => {
-      if (isAnimatedOnMount.value) {
-        handleSnapToIndex(_providedIndex);
-      }
+      handleSnapToIndex(_providedIndex);
     }, [
       _providedIndex,
       animatedCurrentIndex,
