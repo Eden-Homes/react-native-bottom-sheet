@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
-import { useAnimatedProps, useAnimatedStyle } from 'react-native-reanimated';
+import { useAnimatedProps, useAnimatedReaction, useAnimatedStyle } from 'react-native-reanimated';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import BottomSheetDraggableView from '../bottomSheetDraggableView';
 import BottomSheetRefreshControl from '../bottomSheetRefreshControl';
@@ -81,11 +81,17 @@ export function createBottomSheetScrollableComponent<T, P>(
     );
     //#endregion
 
+    useAnimatedReaction(() => {
+      return animatedFooterHeight.value
+    }, (curr, prev) => {
+      animatedContentHeight.value += curr - (prev || 0);
+    })
+
     //#region callbacks
     const handleContentSizeChange = useStableCallback(
       (contentWidth: number, contentHeight: number) => {
         if (enableDynamicSizing) {
-          animatedContentHeight.value = contentHeight;
+          animatedContentHeight.value = contentHeight + animatedFooterHeight.value;
         }
 
         if (onContentSizeChange) {
