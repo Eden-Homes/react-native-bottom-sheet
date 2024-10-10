@@ -1283,10 +1283,11 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
 
         if (animateOnMount) {
           animateToPosition(nextPosition, ANIMATION_SOURCE.MOUNT);
+          isAnimatedOnMount.value = true;
         } else {
           animatedPosition.value = nextPosition;
+          animatedNextPositionIndex.value = _providedIndex;
         }
-        isAnimatedOnMount.value = true;
       },
       [_providedIndex, animateOnMount]
     );
